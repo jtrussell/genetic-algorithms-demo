@@ -150,12 +150,15 @@ class GAExperiment(metaclass = ABCMeta):
 
 
     def crossover(self, a, b):
-        """Combine two members of the population
+        """Combine two members of the population.
 
-        A very simple crossover
+        Params:
+        - self: The experiment
+        - a: An individual
+        - b: Another individual
 
         Returns:
-        An individual
+        A mirrored pair of crossed-over individuals
         """
         return self.crossover_uniform(a, b,)
 
@@ -164,6 +167,14 @@ class GAExperiment(metaclass = ABCMeta):
         """A simple one point crossover
 
         AA + BB --> AB + BA
+
+        Params:
+        - self: The experiment
+        - a: An individual
+        - b: Another individual
+
+        Returns:
+        A mirrored pair of crossed-over individuals
         """
         bits_1, _ = a
         bits_2, _ = b
@@ -176,9 +187,17 @@ class GAExperiment(metaclass = ABCMeta):
 
 
     def crossover_uniform(self, a, b):
-        """A simple uniform crossover
+        """A uniform crossover
 
         Each child bit is equally likely to come from either parent.
+
+        Params:
+        - self: The experiment
+        - a: An individual
+        - b: Another individual
+
+        Returns:
+        A mirrored pair of crossed-over individual
         """
         bits_1, _ = a
         bits_2, _ = b
@@ -197,9 +216,14 @@ class GAExperiment(metaclass = ABCMeta):
         Our stock mutate method with flip a given bit in the individual's
         chromosome bit string with probability 2/L where L is the length of the
         chromosome bit string.
+
+        Params:
+        - self: The experiment
+        - a: An individual
+        - b: Another individual
         
         Returns:
-        An pair of individuals with their fitness
+        A pair of mutated individuals
         """
         return self.mutate_one(a), self.mutate_one(b)
 
@@ -212,6 +236,9 @@ class GAExperiment(metaclass = ABCMeta):
         Params:
         - self: The experiment
         - individual: A bits/fitness score pair
+
+        Returns:
+        An individual
         """
         bits, _ = individual
         n = len(bits)
