@@ -4,11 +4,11 @@ from itertools import chain
 import random
 
 
-class GAExperiment(metaclass = ABCMeta):
+class GAExperiment(metaclass=ABCMeta):
     def __init__(self,
-        population_size = 1000,
-        max_generations = 100,
-        target_fitness = None):
+                 population_size=1000,
+                 max_generations=100,
+                 target_fitness=None):
         """Initialize the experiment
 
         Create a generation 0 or random individuals and initialize other
@@ -99,7 +99,7 @@ class GAExperiment(metaclass = ABCMeta):
 
     def sample_population(self):
         """Return a sampling of the given population
-        
+
         Individuals are selected for "breading" the next generation with
         probability (N - rank) / N. Where N is the size of the population and
         rank a given individuals relative fitness rank within it.
@@ -221,7 +221,7 @@ class GAExperiment(metaclass = ABCMeta):
         - self: The experiment
         - a: An individual
         - b: Another individual
-        
+
         Returns:
         A pair of mutated individuals
         """
@@ -230,7 +230,7 @@ class GAExperiment(metaclass = ABCMeta):
 
     def mutate_one(self, individual):
         """Mutate a single individual
-        
+
         Meant as a helper for the mutate method that gets two individuals.
 
         Params:

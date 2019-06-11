@@ -10,17 +10,26 @@ from gaexperiment import GAExperiment
 from math import ceil
 
 
-NUM_DIGITS = 51
-
-
 class Experiment(GAExperiment):
+    def __init__(self,
+                 population_size=1000,
+                 max_generations=100,
+                 target_fitness=None,
+                 num_digits=51):
+        self.num_digits = num_digits
+        GAExperiment.__init__(self,
+                              max_generations=max_generations,
+                              population_size=population_size,
+                              target_fitness=target_fitness)
+
+
     def fitness(self, individual):
         score = individual.count('1')
-        return NUM_DIGITS + 1 if score == 0 else score
+        return self.num_digits + 1 if score == 0 else score
 
 
     def make_individual(self):
-        return ''.join(random.choice('01') for _ in range(NUM_DIGITS))
+        return ''.join(random.choice('01') for _ in range(self.num_digits))
 
 
     def hook_post_generation(self):
@@ -32,13 +41,14 @@ class Experiment(GAExperiment):
             agg_score = sum([_[1] for _ in self.population])
             mean_score = agg_score / len(self.population)
             print('{}\t{}\t{}'.format(gen, mean_score, ptile_score))
-            print('{}'.format(self.population[0][0]))
 
 
 if __name__ == '__main__':
+    num_digits = 51
     exp = Experiment(population_size=100,
                      max_generations=30,
-                     target_fitness=NUM_DIGITS + 1)
+                     target_fitness=num_digits + 1,
+                     num_digits=num_digits)
     print('Generation\tMean score\tMedian score')
     exp.run()
     print('\nMost fit {}'.format(exp.most_fit))
