@@ -8,6 +8,7 @@ in your bit string. UNLESS! Your string is all 0s, then you get extra points :).
 import random
 from gaexperiment import GAExperiment
 from math import ceil
+from utils import right_pad
 
 
 class Experiment(GAExperiment):
@@ -40,15 +41,27 @@ class Experiment(GAExperiment):
             bits, ptile_score = self.population[ix]
             agg_score = sum([_[1] for _ in self.population])
             mean_score = agg_score / len(self.population)
-            print('{}\t{}\t{}'.format(gen, mean_score, ptile_score))
+            print('{}{}{}'.format(right_pad(gen),
+                                  right_pad(mean_score),
+                                  right_pad(ptile_score)))
 
 
 if __name__ == '__main__':
     num_digits = 51
-    exp = Experiment(population_size=100,
-                     max_generations=30,
-                     target_fitness=num_digits + 1,
+    population_size = 100
+    max_generations = 100
+    print()
+    print('Sequence length: {}'.format(num_digits))
+    print('Population size: {}'.format(population_size))
+    print('Max Generations: {}'.format(max_generations))
+    print()
+    exp = Experiment(population_size=population_size,
+                     max_generations=max_generations,
+                     target_fitness=num_digits,
                      num_digits=num_digits)
-    print('Generation\tMean score\tMedian score')
+    print('{}{}{}'.format(right_pad('Generation'),
+                          right_pad('Mean Score'),
+                          right_pad('Median Score')))
     exp.run()
     print('\nMost fit {}'.format(exp.most_fit))
+    print()
