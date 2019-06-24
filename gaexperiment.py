@@ -1,6 +1,14 @@
+"""
+A base class for GA experiments.
+
+Inherit from GAExperiment, define methods make_individual and fitness, then
+execute the experiment's run method.
+"""
+
 from abc import ABCMeta, abstractmethod
 from math import ceil, floor, inf
 from itertools import chain
+from collections import namedtuple
 import random
 
 
@@ -15,7 +23,7 @@ class GAExperiment(metaclass=ABCMeta):
         experiment parameters.
 
         Some properties of note:
-        - population: A list of tuples of the form (individual, fitness score).
+        - population: A list of individuals
           This list will be ordered by fitness in descending order (i.e. the
           most fit individual first, least fit last).
 
@@ -69,30 +77,30 @@ class GAExperiment(metaclass=ABCMeta):
 
     @abstractmethod
     def fitness(self, individual):
-        """Get a fitness score for the individual.
+        """Get a fitness score for the individual (chromosome).
 
         This method is intended to be overwritten. It will be used to evaluate
         the population members of each generation.
 
         Params:
         - self: The experiment
-        - individual: An sample/phenotype from the population.
+        - bits: A sample/phenotype from the population.
 
         Returns:
-        A fitness score. Used to rank individuals in a population.
+        A fitness score. Used to rank members of a population.
         """
         pass
 
 
     @abstractmethod
     def make_individual():
-        """Any random individual will do.
+        """Any random chromosome representation will do.
 
         This method is intended to be overwritten. It will be used to create
         individuals whenever new ones are needed.
 
         Returns:
-        An individual.
+        A chromosome epresentation of an individual.
         """
         pass
 
@@ -100,7 +108,7 @@ class GAExperiment(metaclass=ABCMeta):
     def sample_population(self):
         """Return a sampling of the given population
 
-        Individuals are selected for "breading" the next generation with
+        Individuals are selected for "breeding" the next generation with
         probability (N - rank) / N. Where N is the size of the population and
         rank a given individuals relative fitness rank within it.
         """
